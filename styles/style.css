@@ -1,0 +1,17 @@
+.container {
+  border: 5px solid black;
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  width: 800px;
+  height: 800px;
+  transform: translate(-50%, -50%);
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
