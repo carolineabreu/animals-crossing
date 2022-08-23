@@ -41,8 +41,8 @@ const boatsArr = [];
 
 class Animal {
   constructor() {
-    this.width = 70;
-    this.height = 70;
+    this.width = 80;
+    this.height = 80;
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 40;
     this.moving = false;
@@ -51,7 +51,36 @@ class Animal {
   }
 
   update() {
-    console.log("update");
+    //console.log("update")
+    if (keys["ArrowUp"]) {
+      if (this.moving === false) {
+        this.y -= grid;
+        this.moving = true;
+      }
+    }
+
+    if (keys["ArrowDown"]) {
+      if (this.moving === false && this.y < canvas.height - this.height * 2) {
+        this.y += grid;
+        this.moving = true;
+      }
+    }
+
+    if (keys["ArrowLeft"]) {
+      if (this.moving === false && this.x > this.width) {
+        this.x -= grid;
+        this.moving = true;
+      }
+    }
+
+    if (keys["ArrowRight"]) {
+      if (this.moving === false && this.x < canvas.width - this.width * 2) {
+        this.x += grid;
+        this.moving = true;
+      }
+    }
+
+    if (this.y < 0) score();
   }
 
   draw() {
@@ -81,7 +110,12 @@ animation();
 window.addEventListener("keydown", function (event) {
   keys = [];
   keys[event.key] = true;
-  if (keys["ArrowDown"] || keys["ArrowUp"] || keys["ArrowLeft"] || keys["ArrowRight"]) {
+  if (keys["ArrowLeft"] || keys["ArrowUp"] || keys["ArrowRight"] || keys["ArrowDown"]) {
     animal.walk();
   }
+});
+
+window.addEventListener("keyup", function (event) {
+  delete keys[event.key];
+  animal.moving = false;
 });
