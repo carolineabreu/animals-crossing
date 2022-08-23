@@ -27,12 +27,12 @@ canvas.height = 800;
 
 // global variables: array with keyboards, game speed each time an animal cross
 
-const grid = 80;
-let keys = [];
+const grid = 80; //grid put a limit, so the animal don't go infinity to any side
+let keys = []; // arrow keys
 let score = 0;
 let collisionCount = 0;
-let frame = 0;
-let gameSpeed = 1;
+let frame = 0; //to control what will happen easily 
+let gameSpeed = 1; //speed increases each time the animal crosses
 
 const bikesArr = [];
 const boatsArr = [];
@@ -80,7 +80,7 @@ class Animal {
       }
     }
 
-    if (this.y < 0) score();
+    if (this.y < 0) addScore();
   }
 
   draw() {
@@ -119,3 +119,10 @@ window.addEventListener("keyup", function (event) {
   delete keys[event.key];
   animal.moving = false;
 });
+
+function addScore() {
+  score++;
+  gameSpeed += 0.05;
+  animal.x = canvas.width / 2 - animal.width / 2;
+  animal.y = canvas.height - animal.height - 40;
+}
