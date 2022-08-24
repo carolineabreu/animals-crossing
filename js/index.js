@@ -4,32 +4,36 @@
 
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 700;
+canvas.height = 700;
 
 const canvas2 = document.getElementById("canvas2");
 const ctx2 = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 700;
+canvas.height = 700;
 
 const canvas3 = document.getElementById("canvas3");
 const ctx3 = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 700;
+canvas.height = 700;
 
 const canvas4 = document.getElementById("canvas4");
 const ctx4 = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 700;
+canvas.height = 700;
 
 const canvas5 = document.getElementById("canvas5");
 const ctx5 = canvas.getContext("2d");
-canvas.width = 800;
-canvas.height = 800;
+canvas.width = 700;
+canvas.height = 700;
+
+const numberCollision = document.querySelector(".collision");
+const numberScore = document.querySelector(".score");
+const numberSpeed = document.querySelector(".speed");
 
 // global variables: array with keyboards, game speed each time an animal cross, initial score, collision counter
 
-const grid = 100; // grid puts a limit, so the animal doesn't go infinitely to any side
+const grid = 80; // grid puts a limit, so the animal doesn't go infinitely to any side
 let keys = []; // arrow keys
 let score = 0;
 let collisionCount = 0;
@@ -43,8 +47,8 @@ const boatsArr = [];
 
 class Animal {
   constructor() {
-    this.width = 70;
-    this.height = 70;
+    this.width = 60;
+    this.height = 60;
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 40;
     // this.x = canvas.width - this.width - 680; => to start on the left side
@@ -112,8 +116,8 @@ class Obstacle {
   }
 
   create() {
-    ctx.fillStyle = "green";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx3.fillStyle = "green";
+    ctx3.fillRect(this.x, this.y, this.width, this.height);
   }
 
   // multiplication because the cars are in moving in different directions, so the value of velocity can be negative
@@ -149,12 +153,12 @@ function createObstacles() {
   // first street - canal
   for (let i = 0; i < 2; i++) {
     let x = i * 400;
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 5 - 35, grid * 2, grid, -2, "boat"));
+    boatsArr.push(new Obstacle(x, canvas.height - grid * 5 - 35, grid * 2, grid, -2, "boat"));
   }
   // second street - canal
   for (let i = 0; i < 3; i++) {
     let x = i * 200;
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 6 - 35, grid, grid, 1, "boat"));
+    boatsArr.push(new Obstacle(x, canvas.height - grid * 6 - 35, grid, grid, 1, "log"));
   }
 }
 
@@ -168,6 +172,12 @@ function handleObstacles() {
   for (let i = 0; i < boatsArr.length; i++) {
     boatsArr[i].create();
     boatsArr[i].update();
+  }
+  // collision
+  for (let i = 0; i < bikesArr.length; i++) {
+    if (collision(animal, bikesArr[i])) {
+      startOver();
+    }
   }
 }
 
@@ -202,4 +212,18 @@ function addScore() {
   gameSpeed += 0.05; // and increases the game speed
   animal.x = canvas.width / 2 - animal.width / 2; // same as declared in class 
   animal.y = canvas.height - animal.height - 40; // Animal
+}
+
+// collision
+
+function collision(first, second) {
+  return !(first.x > second.x + second.width || first.x + first.width < second.x || first.y > second.y + second.height || first.y + first.height < second.y);
+}
+
+function startOver() {
+  animal.x = canvas.width / 2 - animal.width / 2;
+  animal.y = canvas.height - animal.height - 40;
+  score = 0;
+  collisionCount++;
+  gameSpeed = 1;
 }
