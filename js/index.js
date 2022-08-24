@@ -43,8 +43,8 @@ const boatsArr = [];
 
 class Animal {
   constructor() {
-    this.width = 60;
-    this.height = 60;
+    this.width = 70;
+    this.height = 70;
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 40;
     // this.x = canvas.width - this.width - 680; => to start on the left side
@@ -116,15 +116,45 @@ class Obstacle {
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
+  // multiplication because the cars are in moving in different directions, so the value of velocity can be negative
+  // if() the bike has pass through the edge of canvas and it's hidden, restart from left
   update() {
-    this.x += this.velocity * gameSpeed; // multiplication because the cars are in moving in different directions, so the value of velocity can be negative
+    this.x += this.velocity * gameSpeed;
+    if (this.velocity > 0) {
+      if (this.x > canvas.width + this.width) {
+        this.x = 0 - this.width;
+      }
+    } else if (this.x < 0 - this.width) {
+      this.x = canvas.width + this.width;
+    }
   }
 }
 
 function createObstacles() {
-  for (let i = 0; i < 2; i++) { // creates 3 bikes per street
+  // first street
+  for (let i = 0; i < 2; i++) { // creates 2 bikes per street
     let x = i * 350; // each time generates a new bike with different position
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 2 - 35, grid, grid, 1, "bike"));
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 2 - 35, grid * 2, grid, 1, "bike"));
+  }
+  // second street
+  for (let i = 0; i < 2; i++) {
+    let x = i * 300;
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 3 - 35, grid * 2, grid, -2, "bike"));
+  }
+  // third street
+  for (let i = 0; i < 2; i++) {
+    let x = i * 400;
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 4 - 35, grid * 2, grid, 2, "bike"));
+  }
+  // first street - canal
+  for (let i = 0; i < 2; i++) {
+    let x = i * 400;
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 5 - 35, grid * 2, grid, -2, "boat"));
+  }
+  // second street - canal
+  for (let i = 0; i < 3; i++) {
+    let x = i * 200;
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 6 - 35, grid, grid, 1, "boat"));
   }
 }
 
@@ -134,6 +164,10 @@ function handleObstacles() {
   for (let i = 0; i < bikesArr.length; i++) {
     bikesArr[i].create();
     bikesArr[i].update();
+  }
+  for (let i = 0; i < boatsArr.length; i++) {
+    boatsArr[i].create();
+    boatsArr[i].update();
   }
 }
 
