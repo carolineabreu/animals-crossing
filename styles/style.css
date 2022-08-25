@@ -9,6 +9,7 @@
     -50%,
     -50%
   ); /* center element vertically and horizontally, it has to be position absolute */
+  background-image: url(../img/pixil-frame-0\(5\).png);
 }
 
 canvas {
@@ -17,12 +18,4 @@ canvas {
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-.menu {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 20px;
-  font-size: 1.3em;
-  font-weight: 900;
 }
