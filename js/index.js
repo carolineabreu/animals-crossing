@@ -13,6 +13,7 @@ let frame = 0; //to control what will happen easily
 let score = 0;
 let collisionCount = 0;
 let gameSpeed = 1; //speed increases each time the animal crosses
+let animalSafe = false; // animals are only safe if they're on top of boat or log, otherwise they felt in water 
 
 const bikesArr = [];
 const boatsArr = [];
@@ -139,8 +140,8 @@ createObstacles();
 
 function handleObstacles() {
   for (let i = 0; i < bikesArr.length; i++) {
-    bikesArr[i].create();
     bikesArr[i].update();
+    bikesArr[i].create();
   }
   // collision
   for (let i = 0; i < bikesArr.length; i++) {
@@ -148,13 +149,28 @@ function handleObstacles() {
       startOver();
     }
   }
+
 }
 
 function handleBoats() {
-
   for (let i = 0; i < boatsArr.length; i++) {
-    boatsArr[i].create();
     boatsArr[i].update();
+    boatsArr[i].create();
+  }
+
+  // collision with boats or logs
+  if (animal.y < 350 && animal.y > 132) {
+    animalSafe = false;
+
+    for (let i = 0; i < boatsArr.length; i++) {
+      if (collision(animal, boatsArr[i])) {
+        animal.x += boatsArr[i].velocity;
+        animalSafe = true;
+      }
+    }
+    if (!animalSafe) {
+      startOver();
+    }
   }
 }
 
@@ -166,7 +182,7 @@ function animation() {
   animal.create();
   animal.update();
   handleObstacles();
-  handleMenu();
+  handleMenu(); // add and update values of score, speed and collisions
   requestAnimationFrame(animation);
 }
 
@@ -194,9 +210,13 @@ function addScore() {
 }
 
 // collision
-
+// this way it's a reusable function, instead of collision(animals, bike)
 function collision(first, second) {
-  return !(first.x > second.x + second.width || first.x + first.width < second.x || first.y > second.y + second.height || first.y + first.height < second.y);
+  // if one of this statements are true, didn't have a collision, function will be true so this => ! make returns false, because didn't have a collision. function Collision === false. If all 4 statements are false the rectangles are overlapping, otherwise one of statements would be true, so the => ! makes return true, function collision it's true, there was a collision.
+  return !(first.x > second.x + second.width ||
+    first.x + first.width < second.x ||
+    first.y > second.y + second.height ||
+    first.y + first.height < second.y);
 }
 
 function startOver() {
@@ -207,13 +227,14 @@ function startOver() {
   gameSpeed = 1;
 }
 
+// draw on canvas score, collisions and speed
 function handleMenu() {
   ctx.fillStyle = "black";
   ctx.strokeStyle = "black";
-  ctx.font = "18px Verdana";
+  ctx.font = "18px Time New Roman";
   ctx.fillText("Collisions: " + collisionCount, 79, 37);
-  ctx.font = "24px Verdana";
+  ctx.font = "24px Time New Roman";
   ctx.fillText("Score: " + score, 293, 37);
-  ctx.font = "18px Verdana";
+  ctx.font = "18px Time New Roman";
   ctx.fillText("Speed: " + gameSpeed.toFixed(2), 497, 37);
 }
