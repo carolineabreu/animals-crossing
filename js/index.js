@@ -1,47 +1,22 @@
-//get each canvas element, width and height are same as in style.css container
+//get canvas element, width and height are same as in style.css container
 // when using canvas, pass context
-// it could be done with only one canvas but multiple canvas works better for only redraw and clear canvas that have animation happen, to don't have to delete/redraw static things
-
 const canvas = document.getElementById("canvas1");
 const ctx = canvas.getContext("2d");
 canvas.width = 700;
 canvas.height = 700;
 
-const canvas2 = document.getElementById("canvas2");
-const ctx2 = canvas.getContext("2d");
-canvas.width = 700;
-canvas.height = 700;
-
-const canvas3 = document.getElementById("canvas3");
-const ctx3 = canvas.getContext("2d");
-canvas.width = 700;
-canvas.height = 700;
-
-const canvas4 = document.getElementById("canvas4");
-const ctx4 = canvas.getContext("2d");
-canvas.width = 700;
-canvas.height = 700;
-
-const canvas5 = document.getElementById("canvas5");
-const ctx5 = canvas.getContext("2d");
-canvas.width = 700;
-canvas.height = 700;
-
-const numberCollision = document.querySelector(".collision");
-const numberScore = document.querySelector(".score");
-const numberSpeed = document.querySelector(".speed");
-
 // global variables: array with keyboards, game speed each time an animal cross, initial score, collision counter
 
 const grid = 80; // grid puts a limit, so the animal doesn't go infinitely to any side
 let keys = []; // arrow keys
+let frame = 0; //to control what will happen easily 
 let score = 0;
 let collisionCount = 0;
-let frame = 0; //to control what will happen easily 
 let gameSpeed = 1; //speed increases each time the animal crosses
 
 const bikesArr = [];
 const boatsArr = [];
+
 
 //animals
 
@@ -51,8 +26,6 @@ class Animal {
     this.height = 60;
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 40;
-    // this.x = canvas.width - this.width - 680; => to start on the left side
-    // this.y = canvas.height / 2 - this.height / 2;
     this.moving = false;
     this.frameX = 0; // coordinates of animal image on screen
     this.frameY = 0;
@@ -92,8 +65,8 @@ class Animal {
   }
 
   create() {
-    ctx3.fillStyle = "purple";
-    ctx3.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillStyle = "purple";
+    ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
   walk() {
@@ -116,8 +89,8 @@ class Obstacle {
   }
 
   create() {
-    ctx3.fillStyle = "green";
-    ctx3.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillStyle = "yellow";
+    ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 
   // multiplication because the cars are in moving in different directions, so the value of velocity can be negative
@@ -143,22 +116,22 @@ function createObstacles() {
   // second street
   for (let i = 0; i < 2; i++) {
     let x = i * 300;
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 3 - 35, grid * 2, grid, -2, "bike"));
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 3 - 35, grid * 2, grid, 2, "bike"));
   }
   // third street
   for (let i = 0; i < 2; i++) {
     let x = i * 400;
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 4 - 35, grid * 2, grid, 2, "bike"));
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 4 - 35, grid * 2, grid, -2, "bike"));
   }
   // first street - canal
   for (let i = 0; i < 2; i++) {
     let x = i * 400;
-    boatsArr.push(new Obstacle(x, canvas.height - grid * 5 - 35, grid * 2, grid, -2, "boat"));
+    boatsArr.push(new Obstacle(x, canvas.height - grid * 5 - 35, grid * 2, grid, 2, "boat"));
   }
   // second street - canal
   for (let i = 0; i < 3; i++) {
     let x = i * 200;
-    boatsArr.push(new Obstacle(x, canvas.height - grid * 6 - 35, grid, grid, 1, "log"));
+    boatsArr.push(new Obstacle(x, canvas.height - grid * 6 - 35, grid, grid, -1, "log"));
   }
 }
 
@@ -169,10 +142,6 @@ function handleObstacles() {
     bikesArr[i].create();
     bikesArr[i].update();
   }
-  for (let i = 0; i < boatsArr.length; i++) {
-    boatsArr[i].create();
-    boatsArr[i].update();
-  }
   // collision
   for (let i = 0; i < bikesArr.length; i++) {
     if (collision(animal, bikesArr[i])) {
@@ -181,13 +150,23 @@ function handleObstacles() {
   }
 }
 
+function handleBoats() {
+
+  for (let i = 0; i < boatsArr.length; i++) {
+    boatsArr[i].create();
+    boatsArr[i].update();
+  }
+}
+
 // utilities - animate (call) animal function
 
 function animation() {
-  ctx3.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  handleBoats();
   animal.create();
   animal.update();
   handleObstacles();
+  handleMenu();
   requestAnimationFrame(animation);
 }
 
@@ -209,7 +188,7 @@ window.addEventListener("keyup", function (event) {
 
 function addScore() {
   score++; // every time the animal crosses the top, it scores a point
-  gameSpeed += 0.05; // and increases the game speed
+  gameSpeed += 0.25; // and increases the game speed
   animal.x = canvas.width / 2 - animal.width / 2; // same as declared in class 
   animal.y = canvas.height - animal.height - 40; // Animal
 }
@@ -226,4 +205,15 @@ function startOver() {
   score = 0;
   collisionCount++;
   gameSpeed = 1;
+}
+
+function handleMenu() {
+  ctx.fillStyle = "black";
+  ctx.strokeStyle = "black";
+  ctx.font = "18px Verdana";
+  ctx.fillText("Collisions: " + collisionCount, 79, 37);
+  ctx.font = "24px Verdana";
+  ctx.fillText("Score: " + score, 293, 37);
+  ctx.font = "18px Verdana";
+  ctx.fillText("Speed: " + gameSpeed.toFixed(2), 497, 37);
 }
