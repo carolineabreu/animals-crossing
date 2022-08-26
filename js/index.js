@@ -19,6 +19,20 @@ const bikesArr = [];
 const boatsArr = [];
 
 
+// images
+const boat = new Image();
+boat.src = "../img/boat.png";
+
+const log = new Image();
+log.src = "../img/log.png";
+
+const bike = new Image();
+bike.src = "../img/bikes.png";
+let numberBikes = 4;
+
+const rabbit = new Image();
+rabbit.src = "../img/animal.png";
+
 //animals
 
 class Animal {
@@ -38,6 +52,8 @@ class Animal {
       if (this.moving === false) {
         this.y -= grid;
         this.moving = true;
+        this.frameX = 1;
+        this.frameY = 0;
       }
     }
 
@@ -45,6 +61,7 @@ class Animal {
       if (this.moving === false && this.y < canvas.height - this.height * 2) {
         this.y += grid;
         this.moving = true;
+        this.frameY = 3;
       }
     }
 
@@ -52,6 +69,7 @@ class Animal {
       if (this.moving === false && this.x > this.width) {
         this.x -= grid;
         this.moving = true;
+        this.frameY = 2;
       }
     }
 
@@ -59,6 +77,7 @@ class Animal {
       if (this.moving === false && this.x < canvas.width - this.width * 2) {
         this.x += grid;
         this.moving = true;
+        this.frameY = 1;
       }
     }
 
@@ -66,12 +85,15 @@ class Animal {
   }
 
   create() {
-    ctx.fillStyle = "purple";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.drawImage(rabbit, this.frameX * 250, this.frameY * 250, 250, 250, this.x - 25, this.y - 25, this.width * 2, this.height * 2);
   }
 
   walk() {
-    console.log("walk");
+    if (this.moving === false) {
+      this.frameX = 1;
+    } else if (this.frameX === 1) {
+      this.frameX = 0;
+    }
   }
 }
 
@@ -87,11 +109,21 @@ class Obstacle {
     this.height = height;
     this.velocity = velocity;
     this.type = type;
+    this.randomBikes = Math.floor(Math.random() * numberBikes);
+    this.frameX = 0;
+    this.frameY = 0;
   }
 
   create() {
-    ctx.fillStyle = "yellow";
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    // ctx.fillStyle = "yellow";
+    // ctx.fillRect(this.x, this.y, this.width, this.height);
+    if (this.type === "boat") {
+      ctx.drawImage(boat, this.x, this.y, this.width, this.height);
+    } else if (this.type === "log") {
+      ctx.drawImage(log, this.x, this.y, this.width, this.height);
+    } else {
+      ctx.drawImage(bike, this.frameX * this.width, this.randomBikes * this.height, grid, grid, this.x, this.y, this.height, this.width);
+    }
   }
 
   // multiplication because the cars are in moving in different directions, so the value of velocity can be negative
@@ -101,9 +133,14 @@ class Obstacle {
     if (this.velocity > 0) {
       if (this.x > canvas.width + this.width) {
         this.x = 0 - this.width;
+        this.randomBikes = Math.floor(Math.random() * numberBikes);
       }
-    } else if (this.x < 0 - this.width) {
-      this.x = canvas.width + this.width;
+    } else {
+      this.frameX = 1;
+      if (this.x < 0 - this.width) {
+        this.x = canvas.width + this.width;
+        this.randomBikes = Math.floor(Math.random() * numberBikes);
+      }
     }
   }
 }
@@ -112,17 +149,17 @@ function createObstacles() {
   // first street
   for (let i = 0; i < 2; i++) { // creates 2 bikes per street
     let x = i * 350; // each time generates a new bike with different position
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 2 - 35, grid * 2, grid, 1, "bike"));
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 2 - 35, grid, grid, 1, "bike"));
   }
   // second street
-  for (let i = 0; i < 2; i++) {
+  for (let i = 0; i < 3; i++) {
     let x = i * 300;
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 3 - 35, grid * 2, grid, 2, "bike"));
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 3 - 35, grid, grid, 2, "bike"));
   }
   // third street
   for (let i = 0; i < 2; i++) {
     let x = i * 400;
-    bikesArr.push(new Obstacle(x, canvas.height - grid * 4 - 35, grid * 2, grid, -2, "bike"));
+    bikesArr.push(new Obstacle(x, canvas.height - grid * 4 - 35, grid, grid, -2, "bike"));
   }
   // first street - canal
   for (let i = 0; i < 2; i++) {
@@ -132,7 +169,7 @@ function createObstacles() {
   // second street - canal
   for (let i = 0; i < 3; i++) {
     let x = i * 200;
-    boatsArr.push(new Obstacle(x, canvas.height - grid * 6 - 35, grid, grid, -1, "log"));
+    boatsArr.push(new Obstacle(x, canvas.height - grid * 6 - 35, grid * 2, grid, -1, "log"));
   }
 }
 
@@ -200,6 +237,7 @@ window.addEventListener("keydown", function (event) {
 window.addEventListener("keyup", function (event) {
   delete keys[event.key];
   animal.moving = false; // when keyup, the animal stops walking, so it cannot walk by maintaining keydown
+  animal.frameX = 0;
 });
 
 function addScore() {
