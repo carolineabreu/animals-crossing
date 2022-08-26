@@ -182,8 +182,8 @@ createObstacles();
 
 function handleObstacles() {
   for (let i = 0; i < bikesArr.length; i++) {
-    bikesArr[i].update();
     bikesArr[i].create();
+    bikesArr[i].update();
   }
   // collision
   for (let i = 0; i < bikesArr.length; i++) {
