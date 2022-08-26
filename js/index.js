@@ -1,6 +1,6 @@
 //get canvas element, width and height are same as in style.css container
 // when using canvas, pass context
-const canvas = document.querySelector("canvas");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 700;
 canvas.height = 700;
