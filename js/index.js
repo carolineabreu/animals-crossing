@@ -219,7 +219,7 @@ function handleBoats() {
 // utilities - animate (call) animal function
 
 function animation() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
   handleBoats();
   animal.create();
