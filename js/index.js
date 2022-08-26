@@ -123,7 +123,7 @@ class Obstacle {
     // ctx.fillStyle = "yellow";
     // ctx.fillRect(this.x, this.y, this.width, this.height);
     if (this.type === "boat") {
-      ctx.drawImage(boat, this.x, this.y, this.width, this.height);
+      ctx.drawImage(boat, 0, 0, 160, 58, this.x, this.y, this.width, this.height);
     } else if (this.type === "log") {
       ctx.drawImage(log, this.x, this.y, this.width, this.height);
     } else {
