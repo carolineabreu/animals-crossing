@@ -20,8 +20,8 @@ const boatsArr = [];
 
 
 // images
-const background = new Image();
-background.src = "../img/background.png";
+const background1 = new Image();
+background1.src = "../img/pixil-frame.png";
 
 const boat = new Image();
 boat.src = "../img/boat.png";
@@ -220,7 +220,7 @@ function handleBoats() {
 
 function animation() {
   //ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+  ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
   handleBoats();
   animal.create();
   animal.update();
