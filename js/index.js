@@ -21,7 +21,7 @@ const boatsArr = [];
 
 // images
 const background1 = new Image();
-background1.src = "../img/pixil-frame.png";
+background1.src = "../img/background.png";
 
 const boat = new Image();
 boat.src = "../img/boat.png";
