@@ -246,6 +246,10 @@ window.addEventListener("keyup", function (event) {
   animal.frameX = 0;
 });
 
+window.addEventListener("load", () => {
+  ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
+}, false);
+
 function addScore() {
   score++; // every time the animal crosses the top, it scores a point
   gameSpeed += 0.25; // and increases the game speed
