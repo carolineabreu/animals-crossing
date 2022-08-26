@@ -1,6 +1,6 @@
 //get canvas element, width and height are same as in style.css container
 // when using canvas, pass context
-const canvas = document.getElementById("canvas1");
+const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 700;
 canvas.height = 700;
@@ -39,6 +39,8 @@ class Animal {
   constructor() {
     this.width = 60;
     this.height = 60;
+    this.imageWidth = 250;
+    this.imageHeight = 250;
     this.x = canvas.width / 2 - this.width / 2;
     this.y = canvas.height - this.height - 40;
     this.moving = false;
@@ -85,7 +87,7 @@ class Animal {
   }
 
   create() {
-    ctx.drawImage(rabbit, this.frameX * 250, this.frameY * 250, 250, 250, this.x - 25, this.y - 25, this.width * 2, this.height * 2);
+    ctx.drawImage(rabbit, this.frameX * this.imageWidth, this.frameY * this.imageHeight, this.imageWidth, this.imageHeight, this.x - 25, this.y - 25, this.width * 2, this.height * 2);
   }
 
   walk() {
