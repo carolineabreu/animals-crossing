@@ -125,7 +125,7 @@ class Obstacle {
     if (this.type === "boat") {
       ctx.drawImage(boat, 0, 0, 160, 58, this.x, this.y, this.width, this.height);
     } else if (this.type === "log") {
-      ctx.drawImage(log, this.x, this.y, this.width, this.height);
+      ctx.drawImage(log, 0, 0, 160, 58, this.x, this.y, this.width, this.height);
     } else {
       ctx.drawImage(bike, this.frameX * this.width, this.randomBikes * this.height, grid, grid, this.x, this.y, this.height, this.width);
     }
@@ -196,8 +196,8 @@ function handleObstacles() {
 
 function handleBoats() {
   for (let i = 0; i < boatsArr.length; i++) {
-    boatsArr[i].update();
     boatsArr[i].create();
+    boatsArr[i].update();
   }
 
   // collision with boats or logs
