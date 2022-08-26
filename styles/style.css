@@ -9,7 +9,7 @@
     -50%,
     -50%
   ); /* center element vertically and horizontally, it has to be position absolute */
-  background-image: url(../img/pixil-frame-0\(5\).png);
+  background-image: url(../img/background.png);
 }
 
 canvas {
