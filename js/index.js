@@ -185,15 +185,19 @@ function handleObstacles() {
     bikesArr[i].create();
     bikesArr[i].update();
   }
-  for (let i = 0; i < boatsArr.length; i++) {
-    boatsArr[i].create();
-    boatsArr[i].update();
-  }
   // collision
   for (let i = 0; i < bikesArr.length; i++) {
     if (collision(animal, bikesArr[i])) {
       startOver();
     }
+  }
+
+}
+
+function handleBoats() {
+  for (let i = 0; i < boatsArr.length; i++) {
+    boatsArr[i].create();
+    boatsArr[i].update();
   }
   // collision with boats or logs
   if (animal.y < 350 && animal.y > 132) {
@@ -209,6 +213,7 @@ function handleObstacles() {
       startOver();
     }
   }
+
 }
 
 
@@ -217,6 +222,7 @@ function handleObstacles() {
 function animation() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(background1, 0, 0, canvas.width, canvas.height);
+  handleBoats();
   animal.create();
   animal.update();
   handleObstacles();
