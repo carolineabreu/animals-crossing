@@ -21,20 +21,20 @@ const boatsArr = [];
 
 // images
 const background1 = new Image(700, 700);
-background1.src = "../img/background.png";
+background1.src = "./img/background.png";
 
 const boat = new Image(160, 50);
-boat.src = "../img/boat.png";
+boat.src = "./img/boat.png";
 
 const log = new Image(160, 50);
-log.src = "../img/log.png";
+log.src = "./img/log.png";
 
 const bike = new Image(80, 80);
-bike.src = "../img/bikes.png";
+bike.src = "./img/bikes.png";
 let numberBikes = 4;
 
 const rabbit = new Image(60, 60);
-rabbit.src = "../img/animal.png";
+rabbit.src = "./img/animal.png";
 
 //animals
 
