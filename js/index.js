@@ -223,8 +223,8 @@ function animation() {
   handleMenu(); // add and update values of score, speed and collisions
   requestAnimationFrame(animation);
 }
-
-animation();
+background1.onload = animation;
+//animation();
 
 // event listener to make move, with arrow keys
 window.addEventListener("keydown", function (event) {
