@@ -1,6 +1,6 @@
 //get canvas element, width and height are same as in style.css container
 // when using canvas, pass context
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementsByTagName("canvas");
 const ctx = canvas.getContext("2d");
 canvas.width = 700;
 canvas.height = 700;
@@ -114,9 +114,9 @@ class Obstacle {
     this.height = height;
     this.velocity = velocity;
     this.type = type;
-    this.randomBikes = Math.floor(Math.random() * numberBikes);
     this.frameX = 0;
     this.frameY = 0;
+    this.randomBikes = Math.floor(Math.random() * numberBikes);
   }
 
   create() {
