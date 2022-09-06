@@ -1,4 +1,4 @@
-# Animal Crossing
+# Animals Crossing
 
 Jogo criado para o primeiro projeto do bootcamp de Web Development da IronHack São Paulo - Remoto, turma 82.
 
