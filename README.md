@@ -8,6 +8,4 @@ Os comandos para andar são as setas, na rua o coelho tem que desviar das motos 
 O jogo foi desenvolvido usando HTML, CSS e JavaScript.
 
 
-Ajude o coelho voltar para casa  [aqui](https://carolineabreu.github.io/animals-crossing/).
-
- [Apresentação](https://docs.google.com/presentation/d/1tS2Dd9g-LixfLV5u3PlSYgfvcgAs-JYCaB8rJfn-ZHM/edit?usp=sharing)
+Ajude o coelho a voltar para casa  [aqui](https://carolineabreu.github.io/animals-crossing/).
